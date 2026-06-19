@@ -891,7 +891,7 @@ export default function App() {
             Leadership Team
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 lg:gap-12 max-w-5xl mx-auto mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 lg:gap-12 max-w-3xl mx-auto mt-8">
             {leaders.map((leader) => (
               <div
                 key={leader.name}
