@@ -4,7 +4,7 @@ import {
   TrendingUp, Code2, Megaphone, BarChart3,
   Smartphone, Search, Mail, Phone, MapPin, 
   CheckCircle2, Users, Award, Zap, Menu, X, Star, Quote,
-  Instagram, Play
+  Instagram, Play, Target, ClipboardCheck, Layers, Rocket
 } from 'lucide-react'
 import { Shader, Swirl, ChromaFlow, FlutedGlass, FilmGrain } from 'shaders/react'
 
@@ -64,16 +64,17 @@ function useCountUp(end: number, duration: number, trigger: boolean) {
   const [value, setValue] = useState(0)
   useEffect(() => {
     if (!trigger) return
-    setValue(0)
+    let frame = 0
     const startTime = performance.now()
     const tick = (now: number) => {
       const elapsed = now - startTime
       const progress = Math.min(elapsed / duration, 1)
       const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress)
       setValue(Math.round(ease * end))
-      if (progress < 1) requestAnimationFrame(tick)
+      if (progress < 1) frame = requestAnimationFrame(tick)
     }
-    requestAnimationFrame(tick)
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
   }, [trigger, end, duration])
   return value
 }
@@ -140,7 +141,7 @@ export default function App() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
 
   useEffect(() => {
-    const sections = ['hero', 'services', 'work', 'contact']
+    const sections = ['hero', 'services', 'work', 'about', 'leadership', 'testimonials', 'contact']
     const observers = sections.map((id) => {
       const el = document.getElementById(id)
       if (!el) return null
@@ -171,6 +172,29 @@ export default function App() {
     { icon: <BarChart3 size={24} />, title: 'Analytics & Insights', desc: 'Turn raw data into strategic decisions with custom dashboards, KPI tracking, and growth reporting.' },
     { icon: <Smartphone size={24} />, title: 'App Development', desc: 'Native and cross-platform mobile apps that deliver seamless user experiences on iOS and Android.' },
     { icon: <Search size={24} />, title: 'SEO Optimization', desc: 'Dominate search rankings with technical SEO audits, keyword strategy, and high-authority link building.' },
+  ]
+
+  const serviceDetails: Record<string, string[]> = {
+    'Digital Marketing': ['Campaign setup', 'Creative testing', 'Lead quality tracking'],
+    'Web Development': ['Responsive UX', 'Conversion copy', 'Speed optimization'],
+    'Brand Strategy': ['Brand voice', 'Offer positioning', 'Visual direction'],
+    'Analytics & Insights': ['KPI dashboards', 'Call tracking', 'ROI reporting'],
+    'App Development': ['Product roadmap', 'Interface design', 'Launch support'],
+    'SEO Optimization': ['Local keywords', 'GMB optimization', 'Citation cleanup'],
+  }
+
+  const servicePillars = [
+    { icon: <Target size={20} />, title: 'Audience Targeting', text: 'Campaigns begin with ideal customer profiles, location intent, and offer-fit filters.' },
+    { icon: <Layers size={20} />, title: 'Creative Systems', text: 'Ad angles, landing page sections, and follow-up scripts are tested as one growth system.' },
+    { icon: <ClipboardCheck size={20} />, title: 'Lead Verification', text: 'Quality checks help reduce junk enquiries and protect your sales team time.' },
+    { icon: <Rocket size={20} />, title: 'Scale Planning', text: 'Winning campaigns are expanded with clear budget, channel, and conversion milestones.' },
+  ]
+
+  const processSteps = [
+    { step: '01', title: 'Audit', text: 'We review your website, ads, GMB, social presence, and lead handling process.' },
+    { step: '02', title: 'Build', text: 'We create the campaign structure, landing flow, tracking, creatives, and lead capture path.' },
+    { step: '03', title: 'Optimize', text: 'We refine audiences, copy, budgets, and pages using weekly performance data.' },
+    { step: '04', title: 'Scale', text: 'We double down on winning segments and turn growth activity into a repeatable system.' },
   ]
 
   // Stats list
@@ -264,12 +288,6 @@ export default function App() {
   // Leadership Team
   const leaders = [
     {
-      name: 'Karan Lookhar',
-      role: 'CO-FOUNDER & CSO',
-      image: '/cso-portrait.png',
-      desc: 'Driving strategic client growth, lead acquisition, and long-term brand development.'
-    },
-    {
       name: 'Aman Kadyan',
       role: 'CO-FOUNDER & CEO',
       image: '/ceo-cofounder.jpeg',
@@ -340,6 +358,12 @@ export default function App() {
     'Cost-effective marketing solutions',
     'Focus on maximizing return on investment (ROI)',
     'Customized strategies for every business scale',
+  ]
+
+  const proofPoints = [
+    { value: '<2%', label: 'Junk lead target' },
+    { value: '7 day', label: 'Reporting rhythm' },
+    { value: '360', label: 'Website, ads, SEO, and sales view' },
   ]
 
   return (
@@ -571,9 +595,63 @@ export default function App() {
                   <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
                     {s.desc}
                   </p>
+                  <ul className="mt-5 flex flex-col gap-2">
+                    {serviceDetails[s.title].map((item) => (
+                      <li key={item} className="flex items-center gap-2 text-[11px] font-semibold text-gray-700">
+                        <CheckCircle2 size={14} className="text-[#F26522] shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-10 sm:mt-12 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-6">
+            <div className="bg-gray-900 text-white rounded-3xl p-7 sm:p-8 flex flex-col justify-between min-h-[320px]">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-white/50 mb-4">
+                  Growth Stack
+                </p>
+                <h3 className="text-2xl sm:text-3xl font-medium leading-tight max-w-md">
+                  One connected system for attention, trust, enquiry, and follow-up.
+                </h3>
+              </div>
+              <a
+                href="#contact"
+                className="mt-8 bg-white text-gray-900 hover:bg-gray-100 text-sm font-semibold rounded-full pl-5 pr-2 py-2 flex items-center justify-between gap-3 group transition-colors duration-300 w-full sm:w-fit"
+              >
+                <span>Plan my growth stack</span>
+                <div className="w-7 h-7 rounded-full bg-[#F26522] flex items-center justify-center text-white transition-transform duration-500 group-hover:-rotate-45 shrink-0">
+                  <ArrowRight size={13} />
+                </div>
+              </a>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {servicePillars.map((pillar) => (
+                <div key={pillar.title} className="bg-white rounded-2xl p-5 border border-gray-200/70 shadow-sm">
+                  <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-[#F26522] mb-4">
+                    {pillar.icon}
+                  </div>
+                  <h3 className="text-sm font-bold text-gray-900 mb-2">{pillar.title}</h3>
+                  <p className="text-xs leading-relaxed text-gray-500">{pillar.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-10 sm:mt-12 bg-white rounded-3xl border border-gray-200/70 shadow-sm overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-4">
+              {processSteps.map((item) => (
+                <div key={item.step} className="p-6 border-b md:border-b-0 md:border-r last:border-b-0 md:last:border-r-0 border-gray-100">
+                  <p className="text-xs font-bold text-[#F26522] mb-4">{item.step}</p>
+                  <h3 className="text-base font-bold text-gray-900 mb-2">{item.title}</h3>
+                  <p className="text-xs leading-relaxed text-gray-500">{item.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
         </div>
@@ -740,12 +818,23 @@ export default function App() {
             {/* Left: Paragraph and Offer details */}
             <div className="flex flex-col gap-6">
               <p className="text-[15px] sm:text-[17px] leading-[1.65] font-medium text-gray-900">
-                We are a results-driven marketing and lead generation agency working exclusively on a freelance basis. Our mission is simple: help businesses recover their marketing investment and generate profitable growth through high-quality leads and strategic branding.
+                We are a results-driven marketing and lead generation team built for businesses that need clearer positioning, stronger visibility, and better enquiries. Our mission is simple: help brands recover their marketing investment and turn digital attention into profitable growth.
               </p>
               
               <p className="text-[14px] sm:text-[15px] leading-[1.6] text-gray-500">
                 We focus on delivering targeted, conversion-ready leads that help businesses attract genuine customers and increase revenue. Our lead generation process is designed to maintain exceptional quality, with a junk lead ratio of less than 2 out of every 100 leads generated.
               </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {proofPoints.map((item) => (
+                  <div key={item.label} className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+                    <p className="text-2xl font-bold text-gray-900">{item.value}</p>
+                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mt-1">
+                      {item.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
               {/* What We Offer */}
               <div className="mt-6">
@@ -1020,17 +1109,33 @@ export default function App() {
             </div>
             
             {[
-              { title: 'Services', links: ['Digital Marketing', 'Web Development', 'Brand Strategy', 'SEO Optimization', 'App Development'] },
-              { title: 'Company', links: ['About Us', 'Our Work', 'Careers', 'Blog'] },
-              { title: 'Legal', links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'Sitemap'] },
+              { title: 'Services', links: [
+                { label: 'Digital Marketing', href: '#services' },
+                { label: 'Web Development', href: '#services' },
+                { label: 'Brand Strategy', href: '#services' },
+                { label: 'SEO Optimization', href: '#services' },
+                { label: 'App Development', href: '#services' },
+              ] },
+              { title: 'Company', links: [
+                { label: 'About Us', href: '#about' },
+                { label: 'Our Work', href: '#work' },
+                { label: 'Leadership', href: '#leadership' },
+                { label: 'Reviews', href: '#testimonials' },
+              ] },
+              { title: 'Contact', links: [
+                { label: 'Book a Strategy Call', href: '#contact' },
+                { label: 'Email Us', href: 'mailto:hello@groveya.com' },
+                { label: 'Call Us', href: 'tel:+919891637598' },
+                { label: 'Visit Rohini', href: '#contact' },
+              ] },
             ].map(col => (
               <div key={col.title}>
                 <p className="text-sm font-bold mb-4 uppercase tracking-wider text-gray-900">{col.title}</p>
                 <ul className="flex flex-col gap-2">
                   {col.links.map(l => (
-                    <li key={l}>
-                      <a href="#" className="text-xs text-gray-400 hover:text-gray-900 transition-colors duration-300 font-medium">
-                        {l}
+                    <li key={l.label}>
+                      <a href={l.href} className="text-xs text-gray-400 hover:text-gray-900 transition-colors duration-300 font-medium">
+                        {l.label}
                       </a>
                     </li>
                   ))}
@@ -1053,11 +1158,12 @@ export default function App() {
 
       {/* ── Mobile Floating Tab Bar (iOS/Android Style) ── */}
       <div className="fixed bottom-4 left-4 right-4 z-40 md:hidden">
-        <div className="bg-white/85 backdrop-blur-xl border border-gray-250/60 rounded-2xl py-2.5 px-6 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex justify-between items-center max-w-md mx-auto">
+        <div className="bg-white/85 backdrop-blur-xl border border-gray-250/60 rounded-2xl py-2.5 px-2 shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex justify-between items-center max-w-md mx-auto">
           {[
             { id: 'hero', icon: <Globe size={20} />, label: 'Home' },
             { id: 'services', icon: <Zap size={20} />, label: 'Services' },
             { id: 'work', icon: <Award size={20} />, label: 'Work' },
+            { id: 'about', icon: <Users size={20} />, label: 'About' },
             { id: 'contact', icon: <MessageCircle size={20} />, label: 'Contact' },
           ].map((tab) => {
             const isActive = activeTab === tab.id
@@ -1070,7 +1176,7 @@ export default function App() {
                   document.getElementById(tab.id)?.scrollIntoView({ behavior: 'smooth' })
                   setActiveTab(tab.id)
                 }}
-                className={`flex flex-col items-center gap-1 transition-all duration-300 relative py-1 px-3 rounded-xl ${
+                className={`flex flex-col items-center gap-1 transition-all duration-300 relative py-1 px-2 rounded-xl ${
                   isActive ? 'text-[#F26522] scale-105' : 'text-gray-400 hover:text-gray-650'
                 }`}
               >
