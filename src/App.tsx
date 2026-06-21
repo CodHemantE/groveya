@@ -145,6 +145,7 @@ export default function App() {
     firstName: '',
     lastName: '',
     email: '',
+    mobile: '',
     service: '',
     message: ''
   })
@@ -174,6 +175,7 @@ export default function App() {
         body: JSON.stringify({
           Name: `${formData.firstName} ${formData.lastName}`.trim(),
           Email: formData.email,
+          Mobile: formData.mobile,
           Service: formData.service,
           Message: formData.message,
           _cc: "singhhemant9801@gmail.com",
@@ -187,6 +189,7 @@ export default function App() {
           firstName: '',
           lastName: '',
           email: '',
+          mobile: '',
           service: '',
           message: ''
         })
@@ -1097,16 +1100,29 @@ export default function App() {
                 </div>
               </div>
               
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-gray-700 uppercase tracking-wide">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900"
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-gray-700 uppercase tracking-wide">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900"
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-gray-700 uppercase tracking-wide">Mobile Number</label>
+                  <input
+                    type="tel"
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleInputChange}
+                    required
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900"
+                  />
+                </div>
               </div>
 
               <div className="flex flex-col gap-1.5">
