@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   Globe, MessageCircle, ArrowRight,
   TrendingUp, Code2, Megaphone, BarChart3,
@@ -140,6 +140,66 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('hero')
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    service: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null)
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/info.groveya@gmail.com", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Name: `${formData.firstName} ${formData.lastName}`.trim(),
+          Email: formData.email,
+          Service: formData.service,
+          Message: formData.message,
+          _cc: "singhhemant9801@gmail.com",
+          _subject: `New Contact Form Submission from ${formData.firstName} ${formData.lastName}`
+        })
+      })
+
+      if (response.ok) {
+        setSubmitStatus('success')
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          service: '',
+          message: ''
+        })
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      console.error(error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   useEffect(() => {
     const sections = ['hero', 'services', 'work', 'about', 'leadership', 'testimonials', 'contact']
@@ -1011,27 +1071,54 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-8 items-start mt-4">
             
             {/* Form Box */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/60 shadow-sm flex flex-col gap-5 w-full">
+            <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/60 shadow-sm flex flex-col gap-5 w-full">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-bold text-gray-700 uppercase tracking-wide">First Name</label>
-                  <input type="text" className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900" />
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    required
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900"
+                  />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-bold text-gray-700 uppercase tracking-wide">Last Name</label>
-                  <input type="text" className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900" />
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    required
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900"
+                  />
                 </div>
               </div>
               
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wide">Email</label>
-                <input type="email" className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900"
+                />
               </div>
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wide">Service Needed</label>
                 <div className="relative">
-                  <select className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900 w-full appearance-none">
+                  <select
+                    name="service"
+                    value={formData.service}
+                    onChange={handleInputChange}
+                    required
+                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900 w-full appearance-none"
+                  >
                     <option value="">Select a service</option>
                     <option value="marketing">Digital Marketing</option>
                     <option value="web">Web Development</option>
@@ -1047,18 +1134,41 @@ export default function App() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-bold text-gray-700 uppercase tracking-wide">Message</label>
-                <textarea placeholder="Tell us about your project..." rows={3} className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900 resize-none" />
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Tell us about your project..."
+                  rows={3}
+                  className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gray-400 focus:bg-white transition-all text-gray-900 resize-none"
+                />
               </div>
 
               <button
-                className="bg-gray-900 hover:bg-gray-800 text-white rounded-full py-3 text-[14px] font-semibold flex items-center justify-center gap-3 group transition-colors duration-300 w-full cursor-pointer mt-2"
+                type="submit"
+                disabled={isSubmitting}
+                className={`bg-gray-900 hover:bg-gray-800 text-white rounded-full py-3 text-[14px] font-semibold flex items-center justify-center gap-3 group transition-colors duration-300 w-full cursor-pointer mt-2 ${
+                  isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                }`}
               >
-                <RollText text="Send Message" />
+                <RollText text={isSubmitting ? 'Sending...' : 'Send Message'} />
                 <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-gray-900 transition-transform duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:-rotate-45 shrink-0">
                   <ArrowRight size={12} />
                 </div>
               </button>
-            </div>
+
+              {submitStatus === 'success' && (
+                <div className="text-emerald-600 bg-emerald-50 border border-emerald-200 text-xs font-semibold px-4 py-3 rounded-xl text-center">
+                  Thank you! Your message has been sent successfully.
+                </div>
+              )}
+              {submitStatus === 'error' && (
+                <div className="text-red-600 bg-red-50 border border-red-200 text-xs font-semibold px-4 py-3 rounded-xl text-center">
+                  Oops! Something went wrong. Please try again or email us directly at info.groveya@gmail.com.
+                </div>
+              )}
+            </form>
 
             {/* Info Cards */}
             <div className="flex flex-col gap-5 w-full">
