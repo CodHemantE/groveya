@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
 import {
-  Globe, Share2, MessageCircle, ArrowRight,
+  Globe, MessageCircle, ArrowRight,
   TrendingUp, Code2, Megaphone, BarChart3,
   Smartphone, Search, Mail, Phone, MapPin, 
   CheckCircle2, Users, Award, Zap, Menu, X, Star, Quote,
-  Instagram, Play, Target, ClipboardCheck, Layers, Rocket
+  Instagram, Play, Target, ClipboardCheck, Layers, Rocket,
+  Linkedin
 } from 'lucide-react'
 import { Shader, Swirl, ChromaFlow, FlutedGlass, FilmGrain } from 'shaders/react'
 
@@ -1062,7 +1063,7 @@ export default function App() {
             {/* Info Cards */}
             <div className="flex flex-col gap-5 w-full">
               {[
-                { icon: <Mail size={20} />, label: 'Email Us', val: 'hello@groveya.com' },
+                { icon: <Mail size={20} />, label: 'Email Us', val: 'info.groveya@gmail.com' },
                 { icon: <Phone size={20} />, label: 'Call Us', val: '+91 98916 37598' },
                 { icon: <MapPin size={20} />, label: 'Visit Us', val: 'Rohini, Delhi, India' },
               ].map(c => (
@@ -1100,11 +1101,31 @@ export default function App() {
                 Technologies &amp; Growth Partners helping businesses thrive in the digital world.
               </p>
               <div className="flex gap-3">
-                {[<Share2 size={16} />, <MessageCircle size={16} />, <Globe size={16} />].map((ic, i) => (
-                  <button key={i} className="w-8.5 h-8.5 rounded-full bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-900 border border-gray-100 transition-colors cursor-pointer">
-                    {ic}
-                  </button>
-                ))}
+                <a
+                  href="https://www.instagram.com/groveyaa/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8.5 h-8.5 rounded-full bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-900 border border-gray-100 transition-colors cursor-pointer"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={16} />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/grow-on-online/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8.5 h-8.5 rounded-full bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-900 border border-gray-100 transition-colors cursor-pointer"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={16} />
+                </a>
+                <a
+                  href="mailto:info.groveya@gmail.com"
+                  className="w-8.5 h-8.5 rounded-full bg-gray-50 hover:bg-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-900 border border-gray-100 transition-colors cursor-pointer"
+                  aria-label="Email"
+                >
+                  <Mail size={16} />
+                </a>
               </div>
             </div>
             
@@ -1124,7 +1145,7 @@ export default function App() {
               ] },
               { title: 'Contact', links: [
                 { label: 'Book a Strategy Call', href: '#contact' },
-                { label: 'Email Us', href: 'mailto:hello@groveya.com' },
+                { label: 'Email Us', href: 'mailto:info.groveya@gmail.com' },
                 { label: 'Call Us', href: 'tel:+919891637598' },
                 { label: 'Visit Rohini', href: '#contact' },
               ] },
