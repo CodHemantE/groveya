@@ -1191,7 +1191,7 @@ export default function App() {
               {[
                 { icon: <Mail size={20} />, label: 'Email Us', val: 'info.groveya@gmail.com', href: 'mailto:info.groveya@gmail.com' },
                 { icon: <Phone size={20} />, label: 'Call Us', val: '+91 98916 37598', href: 'tel:+919891637598' },
-                { icon: <MapPin size={20} />, label: 'Visit Us', val: 'Rohini, Delhi, India', href: 'https://share.google/QStnUxDqUngA2nT4p' },
+                { icon: <MapPin size={20} />, label: 'Visit Us', val: 'Groveyaa BS/84, Block AG, Sanjay Gandhi Transport Nagar, Delhi, 110042', href: 'https://share.google/QStnUxDqUngA2nT4p' },
               ].map(c => (
                 <a
                   key={c.label}
@@ -1278,7 +1278,7 @@ export default function App() {
                 { label: 'Book a Strategy Call', href: '#contact' },
                 { label: 'Email Us', href: 'mailto:info.groveya@gmail.com' },
                 { label: 'Call Us', href: 'tel:+919891637598' },
-                { label: 'Visit Rohini', href: 'https://share.google/QStnUxDqUngA2nT4p' },
+                { label: 'Visit Us', href: 'https://share.google/QStnUxDqUngA2nT4p' },
               ] },
             ].map(col => (
               <div key={col.title}>
