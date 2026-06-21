@@ -1189,11 +1189,17 @@ export default function App() {
             {/* Info Cards */}
             <div className="flex flex-col gap-5 w-full">
               {[
-                { icon: <Mail size={20} />, label: 'Email Us', val: 'info.groveya@gmail.com' },
-                { icon: <Phone size={20} />, label: 'Call Us', val: '+91 98916 37598' },
-                { icon: <MapPin size={20} />, label: 'Visit Us', val: 'Rohini, Delhi, India' },
+                { icon: <Mail size={20} />, label: 'Email Us', val: 'info.groveya@gmail.com', href: 'mailto:info.groveya@gmail.com' },
+                { icon: <Phone size={20} />, label: 'Call Us', val: '+91 98916 37598', href: 'tel:+919891637598' },
+                { icon: <MapPin size={20} />, label: 'Visit Us', val: 'Rohini, Delhi, India', href: 'https://share.google/QStnUxDqUngA2nT4p' },
               ].map(c => (
-                <div key={c.label} className="bg-white rounded-2xl p-6 flex items-center gap-5 border border-gray-200/50 shadow-sm w-full">
+                <a
+                  key={c.label}
+                  href={c.href}
+                  target={c.href.startsWith('http') ? '_blank' : undefined}
+                  rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="bg-white rounded-2xl p-6 flex items-center gap-5 border border-gray-200/50 shadow-sm w-full transition-all hover:shadow-md cursor-pointer block"
+                >
                   <div className="w-11 h-11 rounded-full bg-orange-50 flex items-center justify-center text-[#F26522] shrink-0 border border-orange-100">
                     {c.icon}
                   </div>
@@ -1201,9 +1207,8 @@ export default function App() {
                     <p className="text-xs uppercase tracking-wider mb-0.5 text-gray-400 font-bold">{c.label}</p>
                     <p className="text-sm font-semibold text-gray-900">{c.val}</p>
                   </div>
-                </div>
+                </a>
               ))}
-
             </div>
 
           </div>
@@ -1273,7 +1278,7 @@ export default function App() {
                 { label: 'Book a Strategy Call', href: '#contact' },
                 { label: 'Email Us', href: 'mailto:info.groveya@gmail.com' },
                 { label: 'Call Us', href: 'tel:+919891637598' },
-                { label: 'Visit Rohini', href: '#contact' },
+                { label: 'Visit Rohini', href: 'https://share.google/QStnUxDqUngA2nT4p' },
               ] },
             ].map(col => (
               <div key={col.title}>
@@ -1281,7 +1286,12 @@ export default function App() {
                 <ul className="flex flex-col gap-2">
                   {col.links.map(l => (
                     <li key={l.label}>
-                      <a href={l.href} className="text-xs text-gray-400 hover:text-gray-900 transition-colors duration-300 font-medium">
+                      <a
+                        href={l.href}
+                        target={l.href.startsWith('http') ? '_blank' : undefined}
+                        rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="text-xs text-gray-400 hover:text-gray-900 transition-colors duration-300 font-medium"
+                      >
                         {l.label}
                       </a>
                     </li>
